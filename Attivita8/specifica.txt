@@ -1,0 +1,161 @@
+SPECIFICA SINTATTICA E SEMANTICA
+
+-inputQueue(queue q) ---> void
+
+    DATI DI INPUT: q = Coda di punti
+    PRECONDIZIONI: Nessuna
+
+    DATI DI OUTPUT: Nessuno
+    POSTCONDIZIONI: Nessuna
+
+    SIDE-EFFECT: la coda presa in input verrà modificata, all`interno di essa verranno inseriti (enQueue) nuovi punti finchè non verrà digitato un 
+                valore sentinella (tramite menù di selezione?") . In ogni caso verrà inserito almeno un punto all`interno della coda.
+
+    PROGETTAZIONE:
+    ricevi una coda di punti come paramentro (q)
+    finchè flag == 1{
+        Inserisci un nuovo punto da tastiera
+        inserisci il punto nella coda (enqueue)
+        Leggere nuovo valore di flag da tastiera (0=Stop 1=Continua)
+    }
+
+
+
+-printQueue (queue q) ---> void
+    
+    DATI DI INPUT: q = Coda di punti
+    PRECONDIZIONI: Nessuna
+
+    DATI DI OUTPUT: Nessuno
+    POSTCONDIZIONI: Nessuna
+
+    SIDE-EFFECT: gli elementi nella coda presa in input vengono stampati e spostati in una coda temporanea, poi vengono di nuovo spostati tutti 
+                nella coda originale. Alla fine la coda q "DOVREBBE" rimanere invariata.
+
+    PROGETTAZIONE:
+    ricevi una coda di punti come paramentro (q)
+    finchè q non è vuota{
+        Stampa l`elemento in testa a q
+        Rimuovi l`elemento da q
+        Inseriscilo in una coda temporanea
+    }
+    Sposta tutti gli elementi dalla coda temporanea di nuovo nella coda originale (funzione moveAll)
+
+
+
+-moveAll (queue dest, queue source) ---> void
+    
+    DATI DI INPUT: dest, source = code di punti
+    PRECONDIZIONI: Nessuna
+
+    DATI DI OUTPUT: Nessuno
+    POSTCONDIZIONI: Nessuna
+
+    SIDE-EFFECT: gli elementi nella coda source vengono spostati TUTTI nella coda dest, quindi source rimane vuota
+
+    PROGETTAZIONE:
+    ricevi due code di punti come parametri (dest, source)
+    finchè source non è vuota{
+        Rimuovi l`elemento in testa a source
+        Insericilo in dest
+    }
+
+
+
+-subQueue (queue q) ---> queue[4]
+
+    DATI DI INPUT: q = Coda di punti
+    PRECONDIZIONI: Nessuna
+
+    DATI DI OUTPUT: sub = array di 4 code
+    POSTCONDIZIONI: sub[0] conterrà i punti di q che appartengono al primo quadrante, sub[1] quelli del secondo, sub[2] quelli del terzo, sub[3] quelli del quarto
+
+    SIDE-EFFECT: i punti vengono eliminati dalla coda originale
+
+    PROGETTAZIONE:
+    ricevi una coda di punti come paramentro (q)
+    crea e alloca un array di 4 code (sub)
+    controlla allocazione
+    finchè q non è vuota{
+        togli il punto in testa a q
+        stabilisci in che quadrante si trova (funzione quadrante)
+        inseriscilo nella coda corrispondente al quadrante
+    }
+    restituisci sub
+
+-quadrante (item it) ---> int
+
+    DATI DI INPUT: it = punto
+    PRECONDIZIONI: it != NULLITEM
+
+    DATI DI OUTPUT: intero da 1 a 4 (compresi)
+    POSTCONDIZIONI: se ascissa e ordinata sono entrambe positive viene restituito 1, se ascissa è positiva e ordinata è negativa viene restituito 2,
+                    se ascissa e ordinata sono entrambe negative viene restituito 3, se ascissa è positiva e ordinata è negativa viene restituito 4.
+
+    SIDE-EFFECT: Nessuno
+
+    PROGETTAZIONE:
+    ricevi un item punto come parametro (it)
+    Se il campo it->x > 0  AND  it->y > 0   restituisci 1
+    Se il campo it->x < 0  AND  it->y > 0   restituisci 2
+    Se il campo it->x < 0  AND  it->y < 0   restituisci 3
+    Se il campo it->x > 0  AND  it->y < 0   restituisci 4
+
+
+
+-spezzata (queue q) ---> float
+
+    DATI DI INPUT: q = coda di punti
+    PRECONDIZIONI: Nessuna
+
+    DATI DI OUTPUT: dist = float
+    POSTCONDIZIONI: dist sarà uguale alla lunghezza della linea risultante dalla congiunzione dei punti nella coda q, quindi se la coda in input è vuota o ha 1 elemento 
+                    allora dista sarà uguale a 0
+
+    SIDE-EFFECT: gli elementi nella coda presa in input vengono spostati in una coda temporanea, poi vengono di nuovo spostati tutti 
+                nella coda originale, ma alla fine la coda q "DOVREBBE" rimanere invariata.
+
+    PROGETTAZIONE: 
+    
+    ricevi una coda di punti come paramentro (q)
+    crea una variabile float dist
+    inizializza dist a 0
+    crea due variabili di appoggio item p1, p2
+    
+    se q non è vuota{
+        rimuovi il punto in testa a q
+        assegnalo a p1
+        inseriscilo in una coda temporanea
+    }
+    
+    finchè q non è vuota{
+        rimuovi il punto in testa a q
+        assegnalo a p2
+        inseriscilo in una coda temporanea
+        dist = dist + distanza tra p1 e p2 (funzione distance)
+        assegna p2 a p1 (p1=p2)
+    }
+
+    sposta tutti gli elementi dalla coda temporanea di nuovo nella coda originale (funzione moveAll)
+    restituisci dist
+
+
+
+-concatQueue (queue q1, queue q2) ---> queue
+
+    DATI DI INPUT: q1 , q2 = code di punti  
+    PRECONDIZIONI: Nessuna
+
+    DATI DI OUTPUT: cq = coda di punti
+    POSTCONDIZIONI: cq conterrà i punti di q1 (in testa) e quelli di q2 (in coda)
+
+    SIDE-EFFECT: gli elementi nelle code prese in input verranno eliminati
+
+    PROGETTAZIONE:
+    ricevi come parametro due code di punti (q1, q2)
+    crea una nuova coda (cq)
+    sposta tutti gli elementi di q1 in cq (funzione moveAll)
+    sposta tutti gli elementi di q2 in cq (funzione moveAll)
+    restituisci cq
+
+    
